@@ -1,0 +1,68 @@
+<html>
+<head>
+<style>
+div{ position:absolute;width:500px;height:500px}
+#rightSide { left: 680px; 
+            border-left: 1px solid black }
+p{background:yellow}
+</style>
+
+</head>
+<body onload="myFunction()">
+<script>
+var noOfFaces=5;
+var theLeftSide=document.getElementById("leftside");
+var theRightSide =document.getElementById("rightside");
+var theBody =document.getElementById("game");
+var score=0;
+function hint()
+{
+var image_hint=document.getElementById("leftside").lastChild;
+score-=5;
+image_hint.style.background="black";
+}
+function myFunction() {
+if(noOfFaces>5)
+{
+while(document.getElementById("leftside").firstChild)
+document.getElementById("leftside").removeChild(document.getElementById("leftside").firstChild);
+while(document.getElementById("rightside").firstChild)
+document.getElementById("rightside").removeChild(document.getElementById("rightside").firstChild);
+}
+for(var i=0;i<noOfFaces;i++)
+{ 
+var img = document.createElement('img');
+img.src = 'smile.png';
+img.style.position="absolute";
+img.style.top = Math.floor((Math.random() * 400) + 1) + 'px';
+img.style.left = Math.floor((Math.random() * 500) + 1) + 'px';
+document.getElementById("leftside").appendChild(img);
+var leftSideImages=document.getElementById("leftside").cloneNode(true);
+document.getElementById("rightside").appendChild(leftSideImages);
+leftSideImages.removeChild(leftSideImages.lastChild);
+}
+document.getElementById("game").onclick = function gameOver() {
+ alert("Game Over!");
+    document.getElementById("game").onclick = null;
+    document.getElementById("leftside").lastChild.onclick = null;
+}
+document.getElementById("leftside").lastChild.onclick=
+    function nextLevel(event){
+        event.stopPropagation();
+       noOfFaces+=5;
+       score+=10;
+        myFunction();
+}
+
+}
+
+</script>
+<h1>Matching Game</h1>
+<button id="hint" onclick="hint()">hint</button>
+<p>Click on the extra smiling face on the left</p>
+<div id="game">
+<div id="leftside"></div>
+<div id="rightside"></div>
+</div>
+</body>
+</html>
